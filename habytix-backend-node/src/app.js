@@ -6,7 +6,7 @@ const app = express();
 // cors
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: ["http://localhost:5173", "https://habytix.vercel.app"], // frontend URL
     credentials: true,               // allow cookies / auth headers
   })
 );

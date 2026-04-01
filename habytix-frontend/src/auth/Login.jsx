@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -43,9 +43,25 @@ export default function Login() {
       alert(error.message);
     }
   };
+  useEffect(() => {
+  const email = localStorage.getItem("demoEmail");
+  const password = localStorage.getItem("demoPassword");
+
+  if (email && password) {
+    setEmail(email);
+    setPassword(password);
+  }
+}, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100">
+
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -30 }}
+      transition={{ duration: 0.35 }}
+    >
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100">
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -98,5 +114,7 @@ export default function Login() {
         </p>
       </motion.div>
     </div>
+    </motion.div>
   );
 }
+    
