@@ -40,7 +40,13 @@ export default function TicketDetails() {
         axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/role/staff`),
       ]);
 
-      setTicket(ticketRes.data);
+      const t = ticketRes.data;
+      setTicket({
+        ...t,
+        assignedTo: t.assignedTo ?? t.assigned_to,
+        tenantId: t.tenantId ?? t.tenant_id,
+        createdAt: t.createdAt ?? t.created_at,
+      });
       setStaffList(staffRes.data);
     } catch (err) {
       console.error("Failed to load ticket details", err);
@@ -50,8 +56,10 @@ export default function TicketDetails() {
   };
 
   /* ------------------ Helpers ------------------ */
-  const getStaffName = (staffId) =>
-    staffList.find((s) => s.id === staffId)?.fullName || "Unknown Staff";
+  const getStaffName = (staffId) => {
+    const staff = staffList.find((s) => Number(s.id) === Number(staffId));
+    return staff ? (staff.fullName || staff.full_name) : "Unknown Staff";
+  };
 
   if (loading) {
     return (
